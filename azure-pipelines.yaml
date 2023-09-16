@@ -12,8 +12,8 @@ parameters:
   default: '.'
   type: string
 # The name of the folder to deploy the package to.
-- name: 'folderName'
-  default: 'Default'
+- name: 'Shared'
+  default: 'Shared'
   type: string
 # Either AutoVersion to generate a build number or CurrentVersion to match the project.json version.
 - name: 'versioningStrategy'
