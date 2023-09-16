@@ -12,7 +12,7 @@ parameters:
   default: '.'
   type: string
 # The name of the folder to deploy the package to.
-- name: 'Shared'
+- name: 'folderName'
   default: 'Shared'
   type: string
 # Either AutoVersion to generate a build number or CurrentVersion to match the project.json version.
@@ -25,8 +25,8 @@ parameters:
   default: ''
   type: string
 # The name of the testSet to be executed 
-- name: 'TestSet'
-  default: 'Azure.Devops.2023_Tests'
+- name: 'testSet'
+  default: 'TestSet'
   type: string
   
 # This pipeline is broken into stages for the approval functionality. Stages are ran independantly, which means the pipeline can pause until the approval is received. 
