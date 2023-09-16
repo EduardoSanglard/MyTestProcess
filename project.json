@@ -4,6 +4,7 @@
   "description": "A test process for testing the integrations between UiPath and Azure Devops",
   "main": "Main.xaml",
   "dependencies": {
+    "UiPath.CodedWorkflows": "[23.10.0-preview]",
     "UiPath.Excel.Activities": "[2.22.0-preview]",
     "UiPath.Mail.Activities": "[1.20.3]",
     "UiPath.MicrosoftOffice365.Activities": "[2.3.1-preview]",
@@ -15,7 +16,7 @@
   "entitiesStores": [],
   "schemaVersion": "4.0",
   "studioVersion": "23.8.0.0",
-  "projectVersion": "1.0.0",
+  "projectVersion": "1.0.148570751",
   "runtimeOptions": {
     "autoDispose": false,
     "netFrameworkLazyLoading": false,
@@ -44,7 +45,14 @@
     "processOptions": {
       "ignoredFiles": []
     },
-    "fileInfoCollection": [],
+    "fileInfoCollection": [
+      {
+        "editingStatus": "Publishable",
+        "testCaseId": "67e64bca-62c6-413b-ad50-af5c9f83c31b",
+        "testCaseType": "TestCase",
+        "fileName": "CheckSumTestCase.xaml"
+      }
+    ],
     "modernBehavior": true
   },
   "expressionLanguage": "VisualBasic",
