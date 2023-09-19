@@ -44,7 +44,7 @@ stages:
     - task: UiPathInstallPlatform@3 # This installs required exes. Not necessary if using a dedicated build machine.
     - task: UiPathPack@3
       inputs:
-        versionType: CurrentVersion
+        versionType: AutoVersion
         projectJsonPath: '$(Build.SourcesDirectory)\${{ parameters.projectPath }}'
         orchestratorConnection: ADO-UiPath  # Update this to a service connection for your Orchestrator.
         outputPath: '$(Build.ArtifactStagingDirectory)\Output'
