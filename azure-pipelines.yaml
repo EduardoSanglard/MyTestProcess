@@ -1,116 +1,51 @@
-# Staged pipeline with an approval process for production releases.
+# Copy this file to you project's root directory (containing the project.json)
+# then update the variables and paths trigger as a appropriate.
 #
-# Approvals are not defined here, but rather tied to the environment. 
-#
-# As is, this pipeline template will deploy to the DEV environment on commits to any developement* branch without approvals,
-# will deploy to the UAT environment on commits to any release* branch without approvals,
-# and will deploy to the Prod environment on commits to the master branch, after approval.
+# The resouces section points to the repository containing the pipeline templates. This is set to UiPath's repository.
+# DO NOT use the UiPath template repository for anything other than testing. It may change without notice.
+# Please fork/replicate this repository to host it yourself and make any required modifications.
 
-parameters:
-# The full path to the folder containing the project.json file for this pipeline
-- name: 'projectPath'
-  default: '.'
-  type: string
-# The name of the folder to deploy the package to.
-- name: 'folderName'
-  default: 'Shared'
-  type: string
-# Either AutoVersion to generate a build number or CurrentVersion to match the project.json version.
-- name: 'versioningStrategy'
-  default: 'CurrentVersion'
-  type: string
-# The environments to update the package version to the deployed version. 
-# Not required for modern folders or if you do not want to update the package version.
-- name: 'environments'
-  default: ''
-  type: string
-# The name of the testSet to be executed 
-- name: 'testSet'
-  default: 'TestSet'
-  type: string
-  
-# This pipeline is broken into stages for the approval functionality. Stages are ran independantly, which means the pipeline can pause until the approval is received. 
-stages:
-# Build the nuget package.
-- stage: Build
-  jobs:
-  - job: BuildJob
-    pool:  Default # Update this if using dedicated build pool
-    workspace:
-      clean: all
-    steps:
-    - script: 'echo project path: ${{ parameters.projectPath }}, folder name: ${{ parameters.folderName }}, versioning strategy: ${{ parameters.versioningStrategy }}, environments: ${{ parameters.environments }}'
-      displayName: Log parameters
-    - task: UiPathInstallPlatform@3 # This installs required exes. Not necessary if using a dedicated build machine.
-    - task: UiPathPack@3
-      inputs:
-        versionType: CurrentVersion
-        projectJsonPath: '$(Build.SourcesDirectory)\${{ parameters.projectPath }}'
-        orchestratorConnection: $(orchestrator-service-connection)  # Update this to a service connection for your Orchestrator.
-        outputPath: '$(Build.ArtifactStagingDirectory)\Output'
-    # Publish the nuget package for later stages.
-    - publish: $(Build.ArtifactStagingDirectory)\Output
-      artifact: drop
+variables:
+  # The full path to the folder containing the project.json file for this pipeline
+  projectPath: project.json
+  # The name of the folder to deploy the package to.
+  folderName: Shared
+  # Either AutoVersion to generate a build number or CurrentVersion to match the project.json version.
+  versioningStrategy: AutoVersion
+  # The orchestrator tenant to deploy to. Not used, but may be useful if deploying to multiple tenants.
+  tenant: Main
+  # The environments to update the package version to the deployed version. 
+  # Not required for modern folders or if you do not want to update the package version.
+  environments: ''
 
-# Deploy to the Test environment on commits to any release* branch.
-# Note that this stage has no environment defined, and won't have approvals.
-# For Test environment approvals, update this to look like the Prod stage, but with using the Test environment.
-- stage: DeployToTest
-  condition: and(succeeded('Build'), startsWith(variables['Build.SourceBranchName'], 'dev'))  # Only run if the packaging succeeded and we are on a development* branch.
-  jobs:
-  - job: DeployToTestJob
-    pool: Default  # Update this if using dedicated build pool
-    workspace:
-      clean: all
-    steps:
-    - download: current
-      artifact: drop
-    - task: UiPathInstallPlatform@3  # This installs required exes. Not necessary if using a dedicated build machine.
-    - task: UiPathDeploy@3
-      inputs:
-        orchestratorConnection: $(orchestrator-service-connection)
-        packagesPath: '$(Pipeline.Workspace)\drop'
-        folderName: ${{ parameters.folderName }}
-        environments: ${{ parameters.environments }}
+# Update this trigger to specify when the pipeline should run.
+# Variables cannot be used here.
+trigger:
+  # Define what branches trigger the pipeline
+  branches:
+    include:
+      - master    # Will push to Prod after approval
+      - dev # Will push to DEV without approval
+      - release*  # Will push to UAT without approval
+  # Define what paths to include for building this pipeline. Normally, you should add the same projectPath as above,
+  # so that any change to the project will trigger the pipeline, but it will ignore any changes to other projects.
+  paths:
+    include:
+      - '*' # same as '/' for the repository root
 
-- stage: Testing
-  displayName:  Test After Publish
-  dependsOn: DeployToTest
-  condition: succeeded()
-  jobs:
-    - job: TestDEV
-      pool: Default
-      steps:
-        - task: UiPathTest@3
-          inputs:
-            testTarget: 'TestSet'
-            orchestratorConnection: $(orchestrator-service-connection)
-            testSet: ${{ parameters.testSet }}
-            folderName: ${{ parameters.folderName }}
-            testReportDestination: '$(Pipeline.Workspace)\drop\'
+# This points to the repository containing the templates. Update this to point to your template repository. Using the Concept of DRY.
+resources:
+  repositories:
+    - repository: templates
+      type: github  # use 'git' for a repo hosted in Azure DevOps
+      endpoint: EduardoSanglard
+      name: EduardoSanglard/MyTestProcess 
 
-
-# Deploy to the Prod environment on commits to the master branch.
-# Will require approvals as defined by the environment in Azure Devops.
-- stage: DeployToProd
-  condition: and(succeeded('Build'), eq(variables['Build.SourceBranchName'], 'main'))
-  jobs:
-  - deployment: DeployToProdJob
-    pool:  # Update this if using dedicated build pool
-      vmImage: 'windows-latest'
-    workspace:
-      clean: all
-    environment: Production  # Update this to your Prod Enviornment in DevOps. This is where you configure the approval process.
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: current
-            artifact: drop
-          - task: UiPathInstallPlatform@3  # This installs required exes. Not necessary if using a dedicated build machine.
-          - task: UiPathDeploy@3
-            inputs:
-              orchestratorConnection: $(orchestrator-service-connection)  # Update this to a service connection for your Prod Orchestrator.
-              packagesPath: '$(Pipeline.Workspace)\drop'
-              folderName: ${{ parameters.folderName }}
-              environments: ${{ parameters.environments }}
+# Use the above specified template for your project. 
+extends:
+  template: project-pipeline-template.yaml@templates  # Template reference
+  parameters:
+    projectPath: $(projectPath)
+    folderName: $(folderName)
+    versioningStrategy: $(versioningStrategy)
+    environments: $(environments)
