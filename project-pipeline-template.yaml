@@ -46,7 +46,7 @@ stages:
       inputs:
         versionType: CurrentVersion
         projectJsonPath: '$(Build.SourcesDirectory)\${{ parameters.projectPath }}'
-        orchestratorConnection: $(orchestrator-service-connection)  # Update this to a service connection for your Orchestrator.
+        orchestratorConnection: ADO-UiPath  # Update this to a service connection for your Orchestrator.
         outputPath: '$(Build.ArtifactStagingDirectory)\Output'
     # Publish the nuget package for later stages.
     - publish: $(Build.ArtifactStagingDirectory)\Output
@@ -68,7 +68,7 @@ stages:
     - task: UiPathInstallPlatform@3  # This installs required exes. Not necessary if using a dedicated build machine.
     - task: UiPathDeploy@3
       inputs:
-        orchestratorConnection: $(orchestrator-service-connection)
+        orchestratorConnection: ADO-UiPath
         packagesPath: '$(Pipeline.Workspace)\drop'
         folderName: ${{ parameters.folderName }}
         environments: ${{ parameters.environments }}
@@ -84,7 +84,7 @@ stages:
         - task: UiPathTest@3
           inputs:
             testTarget: 'TestSet'
-            orchestratorConnection: $(orchestrator-service-connection)
+            orchestratorConnection: ADO-UiPath
             testSet: ${{ parameters.testSet }}
             folderName: ${{ parameters.folderName }}
             testReportDestination: '$(Pipeline.Workspace)\drop\'
@@ -110,7 +110,7 @@ stages:
           - task: UiPathInstallPlatform@3  # This installs required exes. Not necessary if using a dedicated build machine.
           - task: UiPathDeploy@3
             inputs:
-              orchestratorConnection: $(orchestrator-service-connection)  # Update this to a service connection for your Prod Orchestrator.
+              orchestratorConnection: ADO-UiPath  # Update this to a service connection for your Prod Orchestrator.
               packagesPath: '$(Pipeline.Workspace)\drop'
               folderName: ${{ parameters.folderName }}
               environments: ${{ parameters.environments }}
