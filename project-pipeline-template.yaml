@@ -17,7 +17,7 @@ parameters:
   type: string
 # Either AutoVersion to generate a build number or CurrentVersion to match the project.json version.
 - name: 'versioningStrategy'
-  default: 'CurrentVersion'
+  default: 'AutoVersion'
   type: string
 # The environments to update the package version to the deployed version. 
 # Not required for modern folders or if you do not want to update the package version.
@@ -44,7 +44,7 @@ stages:
     - task: UiPathInstallPlatform@3 # This installs required exes. Not necessary if using a dedicated build machine.
     - task: UiPathPack@3
       inputs:
-        versionType: CurrentVersion
+        versionType: ${{ parameters.versioningStrategy }}
         projectJsonPath: '$(Build.SourcesDirectory)\${{ parameters.projectPath }}'
         orchestratorConnection: ADO-UiPath  # Update this to a service connection for your Orchestrator.
         outputPath: '$(Build.ArtifactStagingDirectory)\Output'
