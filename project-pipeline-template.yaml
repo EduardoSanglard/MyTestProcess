@@ -83,7 +83,7 @@ stages:
       steps:
         - task: UiPathTest@3
           inputs:
-            testTarget: 'TestSet'
+            testTarget: TestSet
             orchestratorConnection: ADO-UiPath
             testSet: ${{ parameters.testSet }}
             folderName: ${{ parameters.folderName }}
