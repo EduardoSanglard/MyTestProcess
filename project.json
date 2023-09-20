@@ -12,7 +12,7 @@
   "entitiesStores": [],
   "schemaVersion": "4.0",
   "studioVersion": "23.8.0.0",
-  "projectVersion": "1.0.148570751",
+  "projectVersion": "1.0.148870438",
   "runtimeOptions": {
     "autoDispose": false,
     "netFrameworkLazyLoading": false,
@@ -62,12 +62,6 @@
     {
       "filePath": "Main.xaml",
       "uniqueId": "66c93385-d92d-4946-b96a-153ac456cf14",
-      "input": [],
-      "output": []
-    },
-    {
-      "filePath": "DeltaFunction.cs",
-      "uniqueId": "979a8e9c-4e0d-40d9-9f92-26fb039152e0",
       "input": [],
       "output": []
     }
