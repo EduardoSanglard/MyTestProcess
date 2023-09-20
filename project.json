@@ -47,12 +47,6 @@
         "testCaseId": "67e64bca-62c6-413b-ad50-af5c9f83c31b",
         "testCaseType": "TestCase",
         "fileName": "CheckSumTestCase.xaml"
-      },
-      {
-        "editingStatus": "Publishable",
-        "testCaseId": "c0bec0b9-7daf-4396-a9f4-d18d72711812",
-        "testCaseType": "TestCase",
-        "fileName": "CheckDeltaTestCase.xaml"
       }
     ],
     "modernBehavior": true

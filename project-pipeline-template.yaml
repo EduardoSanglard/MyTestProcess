@@ -32,6 +32,10 @@ parameters:
 - name: 'productionFolderName'
   default: 'Production'
   type: string
+# Folder for deployment of package to specific package feed on testing folder
+- name: 'testingFolderName'
+  default: 'Testing'
+  type: string
   
 # This pipeline is broken into stages for the approval functionality. Stages are ran independantly, which means the pipeline can pause until the approval is received. 
 stages:
@@ -74,7 +78,7 @@ stages:
       inputs:
         orchestratorConnection: ADO-UiPath
         packagesPath: '$(Pipeline.Workspace)\drop'
-        folderName: ${{ parameters.folderName }}
+        folderName: ${{ parameters.testingFolderName }}
         environments: ${{ parameters.environments }}
 
 - stage: Testing
@@ -90,7 +94,7 @@ stages:
             testTarget: TestSet
             orchestratorConnection: ADO-UiPath
             testSet: ${{ parameters.testSet }}
-            folderName: ${{ parameters.folderName }}
+            folderName: ${{ parameters.testingFolderName }}
             testReportDestination: '$(Pipeline.Workspace)\drop\'
 
 

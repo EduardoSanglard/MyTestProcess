@@ -19,6 +19,8 @@ variables:
   environments: ''
   # Folder for deployment of package to specific package feed on production folder
   productionFolderName: Production
+    # Folder for deployment of package to specific package feed on testing folder
+  testingFolderName: Testing
 
 # Update this trigger to specify when the pipeline should run.
 # Variables cannot be used here.
@@ -52,3 +54,4 @@ extends:
     versioningStrategy: $(versioningStrategy)
     environments: $(environments)
     productionFolderName: $(productionFolderName)
+    testingFolderName: $(testingFolderName)
