@@ -17,6 +17,8 @@ variables:
   # The environments to update the package version to the deployed version. 
   # Not required for modern folders or if you do not want to update the package version.
   environments: ''
+  # Folder for deployment of package to specific package feed on production folder
+  productionFolderName: Production
 
 # Update this trigger to specify when the pipeline should run.
 # Variables cannot be used here.
@@ -49,3 +51,4 @@ extends:
     folderName: $(folderName)
     versioningStrategy: $(versioningStrategy)
     environments: $(environments)
+    productionFolderName: $(productionFolderName)

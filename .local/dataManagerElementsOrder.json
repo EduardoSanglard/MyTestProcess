@@ -11,9 +11,13 @@
     {
       "Path": "Main.xaml",
       "SortBy": 0,
-      "VariablesSectionElementsOrder": [],
+      "VariablesSectionElementsOrder": [
+        "sum&Sequence_1",
+        "deltaValue&Sequence_1"
+      ],
       "ArgumentsSectionElementsOrder": [
-        "in_ArgumentTest"
+        "in_Value1",
+        "in_Value2"
       ],
       "ConstantsSectionElementsOrder": [],
       "AddedNamespaces": null
