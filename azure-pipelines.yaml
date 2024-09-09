@@ -100,7 +100,6 @@ stages:
     steps:
     - download: current
       artifact: drop
-    - task: UiPathInstallPlatform@4  # This installs required exes. Not necessary if using a dedicated build machine.
     - task: UiPathDeploy@4
       inputs:
         orchestratorConnection: ADO-UiPath
@@ -125,7 +124,6 @@ stages:
           steps:
           - download: current
             artifact: drop
-          - task: UiPathInstallPlatform@4  # This installs required exes. Not necessary if using a dedicated build machine.
           - task: UiPathDeploy@4
             inputs:
               orchestratorConnection: ADO-UiPath  # Update this to a service connection for your Prod Orchestrator.
