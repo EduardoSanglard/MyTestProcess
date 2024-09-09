@@ -61,7 +61,7 @@ stages:
 - stage: Build
   jobs:
   - job: BuildJob
-    pool:  Default # Update this if using dedicated build pool
+    pool:  Azure Pipelines # Update this if using dedicated build pool
     workspace:
       clean: all
     steps:
@@ -94,7 +94,7 @@ stages:
   condition: and(succeeded('Build'), startsWith(variables['Build.SourceBranchName'], 'main'))  # Only run if the packaging succeeded and we are on a development* branch.
   jobs:
   - job: DeployToTestJob
-    pool: Default  # Update this if using dedicated build pool
+    pool: Azure Pipelines  # Update this if using dedicated build pool
     workspace:
       clean: all
     steps:
@@ -114,7 +114,7 @@ stages:
   condition: and(succeeded('Build'), eq(variables['Build.SourceBranchName'], 'main'))
   jobs:
   - deployment: DeployToProdJob
-    pool: Default
+    pool: Azure Pipelines
     workspace:
       clean: all
     environment: Production  # Update this to your Prod Enviornment in DevOps. This is where you configure the approval process.
