@@ -21,6 +21,20 @@
       ],
       "ConstantsSectionElementsOrder": [],
       "AddedNamespaces": null
+    },
+    {
+      "Path": "CheckSumTestCase.xaml",
+      "SortBy": 0,
+      "VariablesSectionElementsOrder": [
+        "funSum&Sequence_1"
+      ],
+      "ArgumentsSectionElementsOrder": [
+        "in_Value1",
+        "in_Value2",
+        "out_Sum"
+      ],
+      "ConstantsSectionElementsOrder": [],
+      "AddedNamespaces": null
     }
   ]
 }

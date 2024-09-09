@@ -4,9 +4,9 @@
   "description": "A test process for testing the integrations between UiPath and Azure Devops",
   "main": "Main.xaml",
   "dependencies": {
-    "UiPath.CodedWorkflows": "[23.10.0-preview]",
-    "UiPath.System.Activities": "[23.8.1-preview]",
-    "UiPath.Testing.Activities": "[23.8.0-preview]"
+    "UiPath.CodedWorkflows": "[24.10.0]",
+    "UiPath.System.Activities": "[24.10.4]",
+    "UiPath.Testing.Activities": "[24.10.1]"
   },
   "webServices": [],
   "entitiesStores": [],
@@ -45,17 +45,24 @@
       {
         "editingStatus": "Publishable",
         "testCaseId": "67e64bca-62c6-413b-ad50-af5c9f83c31b",
+        "dataVariationFilePath": ".variations\\SumFunction.json",
         "testCaseType": "TestCase",
         "fileName": "CheckSumTestCase.xaml"
       }
     ],
-    "modernBehavior": true
+    "saveToCloud": false
   },
   "expressionLanguage": "VisualBasic",
   "entryPoints": [
     {
       "filePath": "Main.xaml",
       "uniqueId": "66c93385-d92d-4946-b96a-153ac456cf14",
+      "input": [],
+      "output": []
+    },
+    {
+      "filePath": "Workflow.cs",
+      "uniqueId": "b36de17d-6166-4c66-89b2-879ef21d8f7c",
       "input": [],
       "output": []
     }
